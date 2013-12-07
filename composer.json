@@ -1,0 +1,21 @@
+{
+	"name": "bazo/nette-linker",
+	"type": "nette-addon",
+	"description": "Service to create links outside of presenters",
+	"keywords": ["nette", "links"],
+	"homepage": "https://github.com/bazo/nette-linker",
+	"authors": [
+		{
+			"name": "Martin Bažík",
+			"email": "martin@bazo.sk",
+			"homepage": "http://bazo.sk"
+		}
+	],
+	"require": {
+		"php": ">=5.4.0",
+		"nette/nette": "@dev"
+	},
+	"autoload": {
+		"psr-0": {"Bazo": "src/"}
+	}
+}
