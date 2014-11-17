@@ -6,7 +6,7 @@ use Nette\Application\IRouter;
 use Nette\Http\Request as HttpRequest;
 use Nette\Http\Url;
 use Nette\Application\Request;
-use Nette\Application\PresenterFactory;
+use Nette\Application\IPresenterFactory;
 use Nette\Application\UI\InvalidLinkException;
 use Nette\Application\InvalidPresenterException;
 use Nette\Application\UI\Presenter;
@@ -32,7 +32,7 @@ class Linker
 
 
 
-	public function __construct(IRouter $router, HttpRequest $httpRequest, PresenterFactory $presenterFactory)
+	public function __construct(IRouter $router, HttpRequest $httpRequest, IPresenterFactory $presenterFactory)
 	{
 		$this->router = $router;
 		$this->httpRequest = $httpRequest;
