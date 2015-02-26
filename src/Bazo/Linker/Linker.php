@@ -2,6 +2,7 @@
 
 namespace Bazo\Linker;
 
+
 use Nette\Application\IRouter;
 use Nette\Http\Request as HttpRequest;
 use Nette\Http\Url;
@@ -10,8 +11,6 @@ use Nette\Application\IPresenterFactory;
 use Nette\Application\UI\InvalidLinkException;
 use Nette\Application\InvalidPresenterException;
 use Nette\Application\UI\Presenter;
-
-
 
 /**
  * Extracted from Nette Framework
@@ -29,14 +28,25 @@ class Linker
 
 	/** @var PresenterFactory */
 	private $presenterFactory;
-
-
+	private $scheme = 'http';
+	private $domain;
 
 	public function __construct(IRouter $router, HttpRequest $httpRequest, IPresenterFactory $presenterFactory)
 	{
-		$this->router = $router;
-		$this->httpRequest = $httpRequest;
-		$this->presenterFactory = $presenterFactory;
+		$this->router			 = $router;
+		$this->httpRequest		 = $httpRequest;
+		$this->presenterFactory	 = $presenterFactory;
+	}
+
+
+	public function setSchemeAndHost($scheme, $host)
+	{
+		$url = new \Nette\Http\UrlScript;
+
+		$url->setScheme($scheme);
+		$url->setHost($host);
+
+		$this->httpRequest = new HttpRequest($url);
 	}
 
 
@@ -45,12 +55,12 @@ class Linker
 	 */
 	public function link($destination, $args = [])
 	{
-		static $presenterFactory = NULL, $router = NULL, $refUrl = NULL;
+		static $presenterFactory								 = NULL, $router				 = NULL, $refUrl = NULL;
 
 		if ($presenterFactory === NULL) {
-			$presenterFactory = $this->presenterFactory;
-			$router = $this->router;
-			$refUrl = new Url($this->httpRequest->getUrl());
+			$presenterFactory	 = $this->presenterFactory;
+			$router				 = $this->router;
+			$refUrl				 = new Url($this->httpRequest->getUrl());
 			$refUrl->setPath($this->httpRequest->getUrl()->getScriptPath());
 		}
 
@@ -60,7 +70,7 @@ class Linker
 		if ($a === FALSE) {
 			$fragment = '';
 		} else {
-			$fragment = substr($destination, $a);
+			$fragment	 = substr($destination, $a);
 			$destination = substr($destination, 0, $a);
 		}
 
@@ -76,7 +86,7 @@ class Linker
 		if ($a === FALSE) {
 			$scheme = FALSE;
 		} else {
-			$scheme = substr($destination, 0, $a);
+			$scheme		 = substr($destination, 0, $a);
 			$destination = substr($destination, $a + 2);
 		}
 
